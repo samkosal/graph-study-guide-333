@@ -157,8 +157,35 @@ public class Practice {
    * @return true if there is a two-way connection between v1 and v2, false otherwise
    */
   public static <T> boolean twoWay(Vertex<T> v1, Vertex<T> v2) {
-    return false;
+    Set<Vertex<T>> visited1 = new HashSet<>();
+    Set<Vertex<T>> visited2 = new HashSet<>();
+    boolean check = false;
+
+    if (twoWay(v1, v2, visited1) && twoWay(v2, v1, visited2)) {
+      check = true;
+    }
+
+    return check;
   }
+
+  private static <T> boolean twoWay(Vertex<T> current, Vertex<T> target, Set<Vertex<T>> visited) {
+    if (visited.contains(current) || current == null) {
+      return false;
+    }
+    visited.add(current);
+    if (current == target) {
+      return true;
+    }
+    boolean check = false;
+    for (Vertex<T> neighbor : current.neighbors) {
+      if (twoWay(neighbor, target, visited)) {
+        check = true;
+      }
+    }
+
+    return check;
+  }
+  
 
   /**
    * Returns whether there exists a path from the starting to ending vertex that includes only positive values.
