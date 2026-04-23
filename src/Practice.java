@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -325,6 +326,21 @@ public class Practice {
    * @return an unsorted list of next moves
    */
   public static List<int[]> nextMoves(char[][] board, int[] current, int[][] directions) {
-    return null;
+    int curR = current[0];
+    int curC = current[1];
+
+    List<int[]> result = new ArrayList<>();
+
+    for (int[] move : directions) {
+      int newR = curR + move[0];
+      int newC = curC + move[1];
+
+      if (newR < board.length && newC < board[0].length &&
+          newR >= 0 && newC >= 0 &&
+          board[newR][newC] != 'X') {
+            result.add(new int[]{newR, newC});
+      }
+    }
+    return result;
   }
 }
