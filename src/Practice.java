@@ -176,14 +176,14 @@ public class Practice {
     if (current == target) {
       return true;
     }
-    boolean check = false;
+    // boolean check = false;
     for (Vertex<T> neighbor : current.neighbors) {
       if (twoWay(neighbor, target, visited)) {
-        check = true;
+        return true;
       }
     }
 
-    return check;
+    return false;
   }
   
 
@@ -216,14 +216,14 @@ public class Practice {
       return true;
     }
 
-    boolean check = false;
+    // boolean check = false;
 
     for (Integer neighbor : graph.get(current)) {
       if (positivePathExists(graph, neighbor, ending, visited)) {
-        check = true;
+        return true;
       }
     }
-    return check;
+    return false;
   }
 
   /**
@@ -236,7 +236,25 @@ public class Practice {
    * @return true if a person in the extended network works at the specified company, false otherwise
    */
   public static boolean hasExtendedConnectionAtCompany(Professional person, String companyName) {
-    return false;
+    Set<Professional> visited = new HashSet<>();
+
+    return hasExtendedConnectionAtCompany(person, companyName, visited);
+  }
+  public static boolean hasExtendedConnectionAtCompany(Professional current, String companyName, Set<Professional> visited) {
+    if (visited.contains(current) || current == null) {
+      return false;
+    }
+    visited.add(current);
+    if (companyName == current.getCompany()) {
+      return true;
+    }
+    boolean check = false;
+    for (Professional neighbor : current.getConnections()) {
+      if (hasExtendedConnectionAtCompany(neighbor, companyName, visited)) {
+        check = true;
+      }
+    }
+    return check;
   }
 
   /**
